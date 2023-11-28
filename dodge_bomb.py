@@ -26,6 +26,8 @@ def main():
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
+    kkg_img = pg.image.load("ex02/fig/8.png")
+    kkg_img = pg.transform.rotozoom(kkg_img, 0, 5.0)
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     
     muki = {(-5, 0): pg.transform.rotozoom(kk_img, 0, 1.0),
@@ -56,6 +58,10 @@ def main():
                 return
             
         if kk_rct.colliderect(bb_rct):
+            kk_img == kkg_img
+            screen.blit(kkg_img,[630,60])
+            pg.display.update()
+            clock.tick(0.4)
             print("Game Over")
             return
             
