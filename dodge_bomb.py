@@ -11,6 +11,14 @@ delta = {
     pg.K_RIGHT: (+5, 0)
     }
 
+def check_bound(rct: pg.Rect) ->  tuple[bool, bool]:
+    yoko, tate = True, True
+    if rct.left < 0 or WIDTH < rct.right:
+        yoko = False
+    if rct.top < 0 or HEIGHT < rct.bottom:
+        tate = False
+    return yoko, tate
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -33,6 +41,10 @@ def main():
             if event.type == pg.QUIT: 
                 return
             
+        if kk_rct.colliderect(bb_rct):
+            print("Game Over")
+            return
+            
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
         for k,tpl in delta.items():
@@ -41,14 +53,20 @@ def main():
                 sum_mv[1] += tpl[1]   
 
         screen.blit(bg_img, [0, 0])
-        #screen.bilt(kk_img, [900, 400])
         kk_rct.move_ip(sum_mv[0], sum_mv[1])
+        if check_bound(kk_rct) != (True, True):
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
         bb_rct.move_ip(vx, vy)  #練習2　爆弾を移動させる
+        yoko, tate = check_bound(bb_rct)
+        if not yoko:  #横方向にはみ出たら
+            vx *= -1
+        if not tate: #縦方向にはみ出たら
+            vy *= -1
         screen.blit(bb_img, bb_rct)
         pg.display.update()
         tmr += 1
-        clock.tick(10)
+        clock.tick(50)
 
 
 if __name__ == "__main__":
