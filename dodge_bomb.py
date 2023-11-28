@@ -11,6 +11,8 @@ delta = {
     pg.K_RIGHT: (+5, 0)
     }
 
+
+
 def check_bound(rct: pg.Rect) ->  tuple[bool, bool]:
     yoko, tate = True, True
     if rct.left < 0 or WIDTH < rct.right:
@@ -25,6 +27,18 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    
+    muki = {(-5, 0): pg.transform.rotozoom(kk_img, 0, 1.0),
+            (0,-5): pg.transform.flip(pg.transform.rotozoom(kk_img, -90, 1.0),True, False),
+            (+5, -5): pg.transform.flip(pg.transform.rotozoom(kk_img, -45, 1.0),True, False),
+            (+5, 0): pg.transform.flip(pg.transform.rotozoom(kk_img, 0, 1.0),True, False),
+            (+5, +5): pg.transform.flip(pg.transform.rotozoom(kk_img, 45, 1.0),True, False),
+            (0, +5): pg.transform.flip(pg.transform.rotozoom(kk_img, 90, 1.0),True, False),
+            (-5, +5): pg.transform.rotozoom(kk_img, 45, 1.0),
+            (-5, -5): pg.transform.rotozoom(kk_img, -45, 1.0)
+            }
+            
+    
     kk_rct = kk_img.get_rect()  #練習3 こうかとんsurfaceのrectを抽出
     kk_rct.center = 900, 400 #練習3　こうかとんの初期座標
     bb_img = pg.Surface((20, 20))   #練習1　透明のsurfaceをつくる
@@ -51,6 +65,11 @@ def main():
             if key_lst[k]:  #キーが押されたら
                 sum_mv[0] += tpl[0] 
                 sum_mv[1] += tpl[1]   
+            for l, m in muki.items():
+                if sum_mv[0] == l[0] and sum_mv[1] == l[1]:
+                    kk_img = m
+                
+                
 
         screen.blit(bg_img, [0, 0])
         kk_rct.move_ip(sum_mv[0], sum_mv[1])
