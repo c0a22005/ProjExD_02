@@ -58,8 +58,8 @@ def main():
                 return
             
         if kk_rct.colliderect(bb_rct):
-            kk_img == kkg_img
-            screen.blit(kkg_img,[630,60])
+            kk_img == kkg_img #泣いているこうかとんに変更
+            screen.blit(kkg_img,[630,60])  #サイズを拡大
             pg.display.update()
             clock.tick(0.4)
             print("Game Over")
